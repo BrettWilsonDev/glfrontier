@@ -46,7 +46,20 @@ endif()
 # libraries array to be linked
 set(LIBRARIES ${PROJECT_NAME})
 
+# Assume you have a list of source directories to copy
+set(DEP_SRC_DIRS
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/deps/sdl2-src
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/deps/sdl2_image-src
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/deps/physfs-src
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/deps/minivorbis-src
+)
+
+foreach(DEP_SRC_DIR ${DEP_SRC_DIRS})
+  file(COPY ${DEP_SRC_DIR} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/_deps)
+endforeach()
+
 include(FetchContent)
+set(FETCHCONTENT_FULLY_DISCONNECTED ON)
 function(add_git_dependency libName gitURL gitTag)
 
         FetchContent_Declare(${libName}
